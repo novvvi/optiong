@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>quotes</title>
+    <style>
+        body {
+            background: #424446
+        }
+
+        h1,
+        h3 {
+            color: white
+        }
+
+        label {
+            color: white;
+        }
+
+        .message_title {
+            color: white;
+            font-size: 20px;
+        }
+
+        p {
+            color: white;
+        }
+
+        
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-12 navbar navbar-dark bg-dark">
+                <a class="navbar-brand" style="color: white">Welcome! {{ user_info.first_name}}</a>
+                <div class="form-inline">
+                    <a href="/user/{{ user_info.id }}">User quotes</a>
+                    <a class="ml-2 my-2" href="/myaccount/{{ user_info.id }}">Edit My Account</a>
+                    <a href="/logout"><button class="btn btn-outline-success ml-2 my-2 my-sm-0" type="button">logout</button></a>
+                </div>
+            </nav>
+        </div>
+        <div class="row justify-content-md-center my-4">
+            <div class="col-ms-12 col-md-4  mx-5">
+                <h3 class="text-center">Quotes</h3>
+                {% for quote in quotes %}
+                    <div class="border border-light rounded p-3 my-2">
+                        <p>{{ quote.authors }}: {{ quote.quotes }}</p>
+                        <div class="block">
+                            <p><b>Posted by <a href="/user/{{quote.users.id}}">{{quote.users.first_name }} {{quote.users.last_name }}</a></b></p>
+                        </div>
+                        <p class="d-inline mr-4">{{ quote.likes.all.count }} people like this</p>
+                        <a class="d-inline" href="/quotes/likes/{{user_info.id}}/{{quote.id}}"><button class="btn btn-primary py-1" type="button">like</button></a>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="col-ms-12 col-md-4 mx-4">
+                <div class="block">
+                    <h3 class="text-center">Add a Quotes!</h3>
+                    <form class="border border-light rounded p-3" action="/quotes/addqoutes" method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label>Author</label>
+                            <input type="text" class="form-control" name="author">
+                        </div>
+                        <div class="form-group">
+                            <label>Quotes</label>
+                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="text"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-success">Update</button>
+
+                        {% if messages %}
+                        <ul class="messages text-center mt-3">
+                            {% for message in messages%}
+                            <p class = "">{{ message }}<p>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

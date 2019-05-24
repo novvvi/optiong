@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>User quotes</title>
+    <style>
+        body {
+            background: #424446
+        }
+
+        h1,
+        h3 {
+            color: white
+        }
+
+        label {
+            color: white;
+        }
+
+        .message_title {
+            color: white;
+            font-size: 20px;
+        }
+
+        p {
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <nav class="col-md-12 navbar navbar-dark bg-dark">
+                <a class="navbar-brand" style="color: white">Welcome! {{ user_info.first_name}}</a>
+                <form class="form-inline">
+                    <a href="/quotes">back</a>
+                    <a href="/logout"><button class="btn btn-outline-success ml-2 my-2 my-sm-0" type="button">logout</button></a>
+                </form>
+            </nav>
+        </div>
+        <div class="row">
+            <div class="col-md-5 ">
+                <h3>{{ user_info.first_name }}'s Quotes</h3>
+                {% for quote in quotes %}
+                {% if quote.users.id == user_info.id %}
+                <div class=" border border-light px-2 py-4 rounded">
+                    <p>{{ quote.authors }}: {{ quote.quotes }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+    </div>
+</body>
+
+</html>
